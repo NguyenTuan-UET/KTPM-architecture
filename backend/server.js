@@ -1,10 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const upload = require("./routes/upload");
-const  processUpload  = require("./controllers/uploadController");
+const processUpload = require("./controllers/uploadController");
+const ensureFoldersExist = require("./utils/initFolders"); // Import hàm kiểm tra thư mục
 
 const app = express();
 const port = 3001;
+
+// Kiểm tra và tạo thư mục
+ensureFoldersExist(["data", "output"]);
 
 app.use(cors());
 app.use(express.json());

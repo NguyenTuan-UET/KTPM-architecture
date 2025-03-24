@@ -1,39 +1,27 @@
-//--------------[CÁC IN/OUTPUT RIÊNG]---------------
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+const path = require("path");
+
+const FONT_PATH = path.resolve(__dirname, "..", "font", "Roboto-Regular.ttf");
 
 function createPDF(text, pdfPath) {
+  return new Promise((resolve, reject) => {
     const doc = new PDFDocument();
-    doc.pipe(fs.createWriteStream(pdfPath)); // Ghi file vào đường dẫn mong muốn
-    doc.font('font/Roboto-Regular.ttf')
-        .fontSize(14)
-        .text(text, 100, 100);
+    const stream = fs.createWriteStream(pdfPath);
+
+    doc.pipe(stream);
+
+    try {
+      doc.font(FONT_PATH).fontSize(14).text(text, 100, 100);
+    } catch (error) {
+      console.error("🚨 Lỗi khi load font:", error);
+      return reject(error);
+    }
+
     doc.end();
-    return pdfPath; // Trả về đường dẫn file PDF
+    stream.on("finish", () => resolve(pdfPath));
+    stream.on("error", reject);
+  });
 }
 
-module.exports = {
-    createPDF
-};
-
-
-
-//--------------[GHI ĐÈ CÁC IN/OUTPUT]---------------
-// const PDFDocument = require('pdfkit');
-// const fs = require('fs');
-
-// const OUT_FILE = "./output/output.pdf";
-
-// function createPDF(text) {
-//     const doc = new PDFDocument();
-//     doc.pipe(fs.createWriteStream(OUT_FILE));
-//     doc.font('font/Roboto-Regular.ttf')
-//         .fontSize(14)
-//         .text(text, 100, 100);
-//     doc.end();
-//     return OUT_FILE;
-// }
-
-// module.exports = {
-//     createPDF
-// }
+module.exports = { createPDF };

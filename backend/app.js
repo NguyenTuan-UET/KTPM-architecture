@@ -1,3 +1,8 @@
+/**
+ * @file app.js
+ * @description Express server for handling file uploads and processing with RabbitMQ.
+ */
+
 const express = require("express");
 const multer = require("multer");
 const { sendToQueue } = require("./queues/sendToQueue");
@@ -5,10 +10,13 @@ const { completedJobs, startConsumer } = require("./queues/consumeQueue");
 const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
+
 const corsOptions = {
-  origin: "*", 
+  origin: "*",
 };
-//Listen pdf processing from rabbitmq
+
+// Lắng nghe từ hàng đợi translate_done_queue
+// Khi nhận được thông điệp, lưu đường dẫn file PDF vào completedJobs
 startConsumer();
 
 const app = express();
@@ -29,6 +37,7 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
+// Api endpoint để upload file
 
 app.post("/upload", upload.single("image"), async (req, res) => {
   const filePath = req.file.path;
@@ -43,6 +52,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   });
 });
 
+// Api endpoint để checking trạng thái của file
 app.get("/status/:userId", (req, res) => {
   const { userId } = req.params;
   const filePath = completedJobs.get(userId);
@@ -52,6 +62,7 @@ app.get("/status/:userId", (req, res) => {
   res.json({ ready: false });
 });
 
+// Api endpoint để download file
 app.get("/download/:userId", (req, res) => {
   const { userId } = req.params;
   const filePath = completedJobs.get(userId);
@@ -60,7 +71,5 @@ app.get("/download/:userId", (req, res) => {
   }
   res.status(404).send("⏳ PDF chưa sẵn sàng. Thử lại sau.");
 });
-
-// require("./queues/consumeQueue").startConsumer();
 
 app.listen(3001, () => console.log("🚀 Server tại http://localhost:3001"));

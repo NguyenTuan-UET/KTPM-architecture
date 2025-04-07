@@ -1,6 +1,11 @@
 const amqplib = require("amqplib");
 
-const completedJobs = new Map(); 
+const completedJobs = new Map(); // Lưu trữ các công việc đã hoàn thành
+
+/**
+ * Hàm này thiết lập kết nối đến RabbitMQ và tiêu thụ thông điệp từ queue `translate_done_queue`.
+ * Khi nhận được thông điệp, nó lưu thông tin về PDF Path đã tạo và xác nhận thông điệp đã được xử lý thành công.
+ */
 
 async function startConsumer() {
   const conn = await amqplib.connect("amqp://localhost");

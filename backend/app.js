@@ -7,6 +7,7 @@ const express = require("express");
 const multer = require("multer");
 const { sendToQueue } = require("./queues/sendToQueue");
 const { completedJobs, startConsumer } = require("./queues/consumeQueue");
+const ensureFolderExists = require("./utils/initFolders");
 const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
@@ -14,7 +15,7 @@ const cors = require("cors");
 const corsOptions = {
   origin: "*",
 };
-
+ensureFolderExists(["uploads", "output"]);
 // Lắng nghe từ hàng đợi translate_done_queue
 // Khi nhận được thông điệp, lưu đường dẫn file PDF vào completedJobs
 startConsumer();

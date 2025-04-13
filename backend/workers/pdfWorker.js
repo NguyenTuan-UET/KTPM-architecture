@@ -5,7 +5,7 @@ const path = require("path");
 (async () => {
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
-  await ch.assertQueue("pdf_queue", { durable: true });
+  await ch.assertQueue("pdf_queue", { durable: false });
 
   ch.consume("pdf_queue", async (msg) => {
     const { translatedText, userId } = JSON.parse(msg.content.toString());

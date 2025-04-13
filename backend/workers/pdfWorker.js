@@ -6,7 +6,7 @@ const path = require("path");
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
   await ch.assertQueue("pdf_queue", { durable: true });
-
+  ch.prefetch(1); // Chỉ xử lý một thông điệp tại một thời điểm
   ch.consume("pdf_queue", async (msg) => {
     const { translatedText, userId } = JSON.parse(msg.content.toString());
     const outputPath = path.resolve(__dirname, "..", "output", `${userId}.pdf`);
@@ -22,7 +22,7 @@ const path = require("path");
         Buffer.from(JSON.stringify({ userId, pdfPath: outputPath })),
         { persistent: true }
       );
-      
+
       ch.ack(msg);
     } catch (err) {
       console.error("❌ PDF lỗi:", err);

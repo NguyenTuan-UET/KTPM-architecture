@@ -12,6 +12,7 @@ async function startConsumer() {
   const ch = await conn.createChannel();
 
   await ch.assertQueue("translate_done_queue", { durable: true });
+  ch.prefetch(1); // Chỉ xử lý một thông điệp tại một thời điểm
 
   ch.consume("translate_done_queue", async (msg) => {
     const { userId, pdfPath } = JSON.parse(msg.content.toString());

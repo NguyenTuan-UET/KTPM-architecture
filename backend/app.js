@@ -73,4 +73,6 @@ app.get("/download/:userId", (req, res) => {
   res.status(404).send("⏳ PDF chưa sẵn sàng. Thử lại sau.");
 });
 
-app.listen(3001, () => console.log("🚀 Server tại http://localhost:3001"));
+app.listen(3001, "0.0.0.0", () =>
+  console.log("🚀 Server tại http://localhost:3001")
+);

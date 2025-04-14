@@ -74,6 +74,12 @@ app.get('/download/:userId', (req, res) => {
   res.status(404).send('⏳ PDF chưa sẵn sàng. Thử lại sau.');
 });
 
+<<<<<<< HEAD
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+=======
+app.listen(3001, "0.0.0.0", () =>
+  console.log("🚀 Server tại http://localhost:3001")
+);
+>>>>>>> main

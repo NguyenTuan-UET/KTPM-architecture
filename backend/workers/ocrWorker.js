@@ -7,8 +7,7 @@ const { sendToQueue } = require("../queues/sendToQueue");
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
   await ch.assertQueue("ocr_queue", { durable: true }); // Đảm bảo queue tồn tại
-  ch.prefetch(1); // Chỉ xử lý một thông điệp tại một thời điểm
-
+  ch.prefetch(4)
   ch.consume("ocr_queue", async (msg) => {
     /**
      * Lấy đường dẫn file và userId từ thông điệp

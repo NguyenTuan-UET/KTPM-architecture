@@ -6,7 +6,7 @@ const { sendToQueue } = require("../queues/sendToQueue");
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
   await ch.assertQueue("translate_queue", { durable: true });
-
+  ch.prefetch(5);
   ch.consume("translate_queue", async (msg) => {
     const { text, userId } = JSON.parse(msg.content.toString());
     try {

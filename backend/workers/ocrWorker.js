@@ -6,12 +6,8 @@ const { sendToQueue } = require('../queues/sendToQueue');
 (async () => {
   const conn = await amqplib.connect('amqp://localhost');
   const ch = await conn.createChannel();
-<<<<<<< HEAD
-  await ch.assertQueue('ocr_queue', { durable: false }); // Đảm bảo queue tồn tại
-=======
   await ch.assertQueue("ocr_queue", { durable: true }); // Đảm bảo queue tồn tại
   ch.prefetch(1); // Chỉ xử lý một thông điệp tại một thời điểm
->>>>>>> main
 
   ch.consume('ocr_queue', async (msg) => {
     /**
@@ -24,15 +20,9 @@ const { sendToQueue } = require('../queues/sendToQueue');
 
     try {
       const text = await image2text(absolutePath);
-<<<<<<< HEAD
-      // await new Promise((resolve) => setTimeout(resolve, 10000)); // Delay 10 giây (10000ms)
-      await sendToQueue('translate_queue', { text, userId });
-      console.log('✅ OCR done:', userId);
-=======
       // await new Promise((resolve) => setTimeout(resolve, 10000));
       await sendToQueue("translate_queue", { text, userId });
       console.log("✅ OCR done:", userId);
->>>>>>> main
       ch.ack(msg); // Gửi ack để xác nhận đã xử lý xong thông điệp
     } catch (err) {
       console.error('❌ OCR lỗi:', err);

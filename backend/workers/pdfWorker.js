@@ -5,13 +5,8 @@ const path = require("path");
 (async () => {
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
-<<<<<<< HEAD
-  await ch.assertQueue("pdf_queue", { durable: false });
-
-=======
   await ch.assertQueue("pdf_queue", { durable: true });
   ch.prefetch(1); // Chỉ xử lý một thông điệp tại một thời điểm
->>>>>>> main
   ch.consume("pdf_queue", async (msg) => {
     const { translatedText, userId } = JSON.parse(msg.content.toString());
     const outputPath = path.resolve(__dirname, "..", "output", `${userId}.pdf`);

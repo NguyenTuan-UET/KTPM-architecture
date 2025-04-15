@@ -6,13 +6,13 @@ const { sendToQueue } = require("../queues/sendToQueue");
   const conn = await amqplib.connect("amqp://localhost");
   const ch = await conn.createChannel();
   await ch.assertQueue("translate_queue", { durable: true });
-  ch.prefetch(5);
+  ch.prefetch(2);
   ch.consume("translate_queue", async (msg) => {
-    const { text, userId } = JSON.parse(msg.content.toString());
+    const { text, fileHash } = JSON.parse(msg.content.toString());
     try {
       const translatedText = await translate(text);
-      await sendToQueue("pdf_queue", { translatedText, userId });
-      console.log("✅ Translate done:", userId);
+      await sendToQueue("pdf_queue", { translatedText, fileHash });
+      console.log("✅ Translate done:", fileHash);
       ch.ack(msg);
     } catch (err) {
       console.error("❌ Translate lỗi:", err);

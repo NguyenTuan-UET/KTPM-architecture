@@ -1,20 +1,20 @@
-export async function uploadFile(file) {
+export const uploadFile = async (file) => {
     const formData = new FormData();
-    formData.append("image", file);
-
+    formData.append('image', file);
+  
     try {
-        const response = await fetch("http://localhost:3001/upload", {
-            method: "POST",
-            body: formData, // form có tên "image" chứa file ảnh
-        });
-
-        if (!response.ok) {
-            throw new Error("Upload failed");
-        }
-
-        return await response.json();
+      const response = await fetch('http://localhost:3001/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.statusUrl) {
+        return data; // Return statusUrl to be used in the next API call
+      }
+      throw new Error('Upload failed');
     } catch (error) {
-        console.error("API Error:", error);
-        return null;
+      console.error('Error uploading file:', error);
+      throw error;
     }
-}
+  };
+  

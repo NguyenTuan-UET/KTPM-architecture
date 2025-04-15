@@ -1,89 +1,79 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { uploadFile } from './api/upload_api';
-import './App.css';
+import { fetchStatus } from './api/status_api';
+import { downloadFile } from './api/download_api';
+import './App.css'; // Import CSS file for styling
 
-export default function UploadPage() {
+const FileUpload = () => {
   const [file, setFile] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [originalImage, setOriginalImage] = useState(null);
-  const [statusMessage, setStatusMessage] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [filePreview, setFilePreview] = useState(null); // State for image preview
+  const [translateText, setTranslateText] = useState('');
+  const [downloadUrl, setDownloadUrl] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
+  // Handle file input change
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-    setOriginalImage(URL.createObjectURL(selectedFile)); // Ảnh gốc sẽ được hiển thị ngay lập tức mà không cần tải lên server.
+    setFilePreview(URL.createObjectURL(selectedFile)); // Set preview URL
   };
 
-  const checkStatus = async (userId) => {
-    const intervalId = setInterval(async () => {
-      const response = await fetch(`http://localhost:3001/status/${userId}`);
-      const result = await response.json();
-
-      if (result.ready) {
-        setPdfUrl(`http://localhost:3001${result.downloadUrl}`);
-        setStatusMessage("PDF đã sẵn sàng!");
-        clearInterval(intervalId); 
-      } else {
-        setStatusMessage("Đang xử lý... Vui lòng chờ.");
-      }
-    }, 1000); 
-  }
-
+  // Upload file and convert
   const handleUpload = async () => {
     if (!file) return;
-    setLoading(true);
-    setStatusMessage(null);
 
-    // Gọi API upload ảnh
-    const data = await uploadFile(file);
-    if (data) {
-      setUserId(data.userId); // Lưu userId nhận từ backend
-      setStatusMessage("Đang tải lên... Vui lòng đợi.");
-      checkStatus(data.userId); // Kiểm tra trạng thái sau khi upload
+    try {
+      const data = await uploadFile(file); // Call upload API
+      if (data.statusUrl) {
+        await fetchStatusData(data.statusUrl); // Call status API
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
     }
-    console.log(statusMessage);
-    setLoading(false);
+  };
+
+  // Fetch status from API
+  const fetchStatusData = async (statusUrl) => {
+    try {
+      const data = await fetchStatus(statusUrl); // Call status API
+      setTranslateText(data.translate_text);
+      setDownloadUrl(data.downloadUrl);
+      setIsReady(data.ready);
+    } catch (error) {
+      console.error('Error fetching status:', error);
+    }
+  };
+
+  // Download the file
+  const handleDownload = async () => {
+    if (downloadUrl) {
+      await downloadFile(downloadUrl); // Call download API
+    }
   };
 
   return (
-    <div className="container">
-      <h1>Upload & Convert File</h1>
+    <div className="file-upload-container">
+      <h1>Upload & Convert Image</h1>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload} disabled={!file}>
+        Upload & Convert
+      </button>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="file-input"
-      />
+      {filePreview && (
+        <div className="content">
+          <img src={filePreview} alt="Uploaded Preview" className="image" />
+          {translateText && (
+            <div className="translation">
+              <h3>Translated Text:</h3>
+              <p>{translateText}</p>
+            </div>
+          )}
+        </div>
+      )}
 
-      <div className="button-container">
-        <button
-          onClick={handleUpload}
-          disabled={!file || loading}
-          className="upload-button"
-        >
-          {loading ? 'Uploading...' : 'Upload & Convert'}
-        </button>
-
-        {statusMessage && <p className="status-message">{statusMessage}</p>}
-
-        {pdfUrl && (
-          <a href={pdfUrl} target='_blank' className="open-pdf-button">
-            View PDF
-          </a>
-        )}
-      </div>
-
-      <div className="content">
-        {originalImage && (
-          <img src={originalImage} alt="Original" className="image" />
-        )}
-        {pdfUrl && (
-          <iframe src={`${pdfUrl}?t=${new Date().getTime()}`} className="pdf-viewer"></iframe>
-        )}
-      </div>
+      {isReady && <button onClick={handleDownload}>Download File</button>}
     </div>
   );
-}
+};
+
+export default FileUpload;

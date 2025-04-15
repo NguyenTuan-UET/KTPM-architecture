@@ -1,3 +1,16 @@
+/* Updated styles for a more modern and visually appealing design */
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -6,16 +19,27 @@
 
   max-width: 800px;
   width: 100%;
-  margin: 25vh auto 0 auto; 
+  margin: 25vh auto 0 auto;
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.file-upload-container {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
 h1 {
-  font-size: 35px;
-  margin-bottom: 15px;
+  font-size: 24px;
+  color: #333333;
+  margin-bottom: 20px;
 }
 
 .file-input {
@@ -30,6 +54,20 @@ h1 {
   cursor: pointer;
 }
 
+input[type='file'] {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  border: 2px dashed #007bff;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type='file']:hover {
+  background-color: #e6f7ff;
+}
 
 .button-container {
   display: flex;
@@ -38,7 +76,8 @@ h1 {
   margin-top: 10px;
 }
 
-.upload-button, .open-pdf-button {
+.upload-button,
+.open-pdf-button {
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -65,6 +104,26 @@ h1 {
   text-align: center;
 }
 
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -88,4 +147,25 @@ h1 {
   height: 500px;
   border: 2px solid #333;
   border-radius: 10px;
+}
+
+.translation {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.translation h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #333333;
+}
+
+.translation p {
+  margin: 0;
+  font-size: 16px;
+  color: #555555;
 }

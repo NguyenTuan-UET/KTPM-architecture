@@ -3,7 +3,7 @@ let successCount = 0;
 let state = 'CLOSED';
 const FAILURE_THRESHOLD = 3;
 const SUCCESS_THRESHOLD = 2;
-const RESET_TIMEOUT = 5000; // 5 seconds
+const RESET_TIMEOUT = 10000; // 10 seconds
 
 export const circuitBreaker = async (action) => {
   if (state === 'OPEN') {
@@ -36,7 +36,7 @@ export const circuitBreaker = async (action) => {
       setTimeout(() => {
         state = 'HALF_OPEN';
         successCount = 0;
-        console.log('Circuit breaker transitioned to HALF_OPEN state.');
+        console.warn('Circuit breaker transitioned to HALF_OPEN state.');
       }, RESET_TIMEOUT);
     }
 

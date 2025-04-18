@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { uploadFile } from './api/upload_api';
-import { fetchStatus } from './api/status_api';
-import { downloadFile } from './api/download_api';
+import { uploadFile } from '../api/upload_api';
+import { fetchStatus } from '../api/status_api';
+import { downloadFile } from '../api/download_api';
 import './App.css'; // Import CSS file for styling
+import MonitorHealth from './MonitorHealth.jsx'; // Import MonitorHealth component
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -52,26 +53,28 @@ const FileUpload = () => {
   };
 
   return (
-    <div className="file-upload-container">
-      <h1>Upload & Convert Image</h1>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={!file}>
-        Upload & Convert
-      </button>
+    <div>
+      <div className="file-upload-container">
+        <h1>Upload & Convert Image</h1>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload} disabled={!file}>
+          Upload & Convert
+        </button>
 
-      {filePreview && (
-        <div className="content">
-          <img src={filePreview} alt="Uploaded Preview" className="image" />
-          {translateText && (
-            <div className="translation">
-              <h3>Translated Text:</h3>
-              <p>{translateText}</p>
-            </div>
-          )}
-        </div>
-      )}
+        {filePreview && (
+          <div className="content">
+            <img src={filePreview} alt="Uploaded Preview" className="image" />
+            {translateText && (
+              <div className="translation">
+                <h3>Translated Text:</h3>
+                <p>{translateText}</p>
+              </div>
+            )}
+          </div>
+        )}
 
-      {isReady && <button onClick={handleDownload}>Download File</button>}
+        {isReady && <button onClick={handleDownload}>Download File</button>}
+      </div>
     </div>
   );
 };

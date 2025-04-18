@@ -1,7 +1,6 @@
 const redis = require("redis");
 
-const redisClient = redis.createClient(); // Create local redis
-// Connect to redis cache
+const redisClient = redis.createClient();// Connect to redis cache
 async function connectRedis() {
   try {
     await redisClient.connect();
@@ -13,7 +12,7 @@ async function connectRedis() {
 connectRedis();
 
 redisClient.on("error", (err) => {
-  console.error("❌ Redis error:", err);
+  console.error("❌ Redis error:", err.message);
 });
 
 process.on("exit", () => {
@@ -30,4 +29,4 @@ async function setCache(key, value, ttl = 3600) {
   await redisClient.set(key, stringValue, { EX: ttl });
 }
 
-module.exports = { getCache, setCache };
+module.exports = { getCache, setCache, redisClient };

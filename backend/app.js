@@ -12,6 +12,7 @@ const fs = require("fs");
 const { getCache, setCache } = require("./services/redisService");
 const { getFileByHash } = require("./services/databaseService");
 const { hashFile } = require("./utils/hashFile");
+const { checkHealth } = require("./utils/healthCheck");
 const cors = require("cors");
 
 const corsOptions = {
@@ -77,7 +78,7 @@ app.get("/status/:fileHash", async (req, res) => {
         setCache(fileHash, translateText);
       }
     }
-
+    console.log("cache have translateText")
     if (fs.existsSync(filePath)) {
       return res.json({
         ready: true,
@@ -112,3 +113,5 @@ function successResponse(res, fileHash) {
     statusUrl: `http://localhost:3001/status/${fileHash}`,
   });
 }
+
+app.get("/health", checkHealth);

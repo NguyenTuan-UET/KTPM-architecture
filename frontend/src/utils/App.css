@@ -1,31 +1,3 @@
-/* Updated styles for a more modern and visually appealing design */
-
-body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  max-width: 800px;
-  width: 100%;
-  margin: 25vh auto 0 auto;
-  background-color: #f4f4f4;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
 .file-upload-container {
   background: #ffffff;
   border-radius: 10px;
@@ -34,12 +6,10 @@ body {
   width: 100%;
   max-width: 500px;
   text-align: center;
-}
-
-h1 {
-  font-size: 24px;
-  color: #333333;
-  margin-bottom: 20px;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .file-input {

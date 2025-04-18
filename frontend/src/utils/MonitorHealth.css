@@ -1,0 +1,53 @@
+.health-status-container {
+  background-color: #add8e6; /* Light blue background */
+  border: 1px solid #87ceeb;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  right: 60px;
+}
+
+.health-status-title {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.health-status-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.health-status-item {
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: space-between;  /* Đảm bảo khoảng cách giữa tên dịch vụ và biểu tượng */
+    align-items: center;
+  }
+  
+  .health-status-item .service-name {
+    flex: 1; /* Đảm bảo phần tên dịch vụ chiếm hết không gian còn lại */
+    text-align: left; /* Căn trái cho tên dịch vụ */
+  }
+  
+  .health-status-item .status-icon {
+    margin-left: 20px; /* Tạo khoảng cách giữa tên dịch vụ và biểu tượng */
+  }
+
+.health-status-item.up {
+  background-color: #28a745; /* Green for up */
+}
+
+.health-status-item.down {
+  background-color: #dc3545; /* Red for down */
+}

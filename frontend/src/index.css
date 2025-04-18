@@ -4,8 +4,10 @@
   font-family: 'Roboto', sans-serif;
 }
 
-body {
+body, .container {
   background: url('./assets/back_ground.png') no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+  flex-direction: column;
 }
 

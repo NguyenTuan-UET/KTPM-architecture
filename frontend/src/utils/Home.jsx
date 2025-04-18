@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { uploadFile } from '../api/upload_api';
 import { fetchStatus } from '../api/status_api';
 import { downloadFile } from '../api/download_api';
-import './App.css'; // Import CSS file for styling
-import MonitorHealth from './MonitorHealth.jsx'; // Import MonitorHealth component
+import './Home.css'; // Import CSS file for styling
 
-const FileUpload = () => {
+const Home = () => {
   const [file, setFile] = useState(null);
   const [filePreview, setFilePreview] = useState(null); // State for image preview
   const [translateText, setTranslateText] = useState('');
@@ -79,4 +78,4 @@ const FileUpload = () => {
   );
 };
 
-export default FileUpload;
+export default Home;

@@ -1,14 +1,15 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './utils/App.jsx';
-import MonitorHealth from './utils/MonitorHealth.jsx';
-import './index.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Import BrowserRouter, Routes, Route
 
+import './index.css';
+import App from './App.jsx';
+
+// Render the application to the root element
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <div className="container">
+    <BrowserRouter>  
       <App />
-      <MonitorHealth />
-    </div>
+    </BrowserRouter>
   </StrictMode>
 );

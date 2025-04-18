@@ -10,8 +10,9 @@ Yêu cầu cài đặt trước [tesseract](https://tesseract-ocr.github.io/tess
 - redis: docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
 - MQ: docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
 - pm2: npm install -g pm2
-- cd backend/worker/ : pm2 start /orc....js i- 4
-
+- pm2 start .\backend\workers\ocrWorker.js -i 4
+- pm2 start .\backend\workers\translateWorker.js -i 4
+- pm2 start .\backend\workers\pdfWorker.js -i 4
 # Fronend:
 - npm install 
 - npm run dev 

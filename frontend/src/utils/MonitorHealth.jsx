@@ -6,6 +6,9 @@ const MonitorHealth = () => {
     redis: false,
     rabbitmq: false,
     database: false,
+    ocrWorker: false,
+    pdfWorker: false,
+    translateWorker: false,
   });
 
   useEffect(() => {
@@ -20,11 +23,14 @@ const MonitorHealth = () => {
           redis: false,
           rabbitmq: false,
           database: false,
+          ocrWorker: false,
+          pdfWorker: false,
+          translateWorker: false,
         });
       }
     };
 
-    const interval = setInterval(fetchHealthStatus, 5000);
+    const interval = setInterval(fetchHealthStatus, 10000);
     fetchHealthStatus();
 
     return () => clearInterval(interval);
@@ -41,16 +47,54 @@ const MonitorHealth = () => {
           <span className="status-icon">{healthStatus.redis ? '✔' : '✘'}</span>
         </li>
         <li
-          className={`health-status-item ${healthStatus.rabbitmq ? 'up' : 'down'}`}
+          className={`health-status-item ${
+            healthStatus.rabbitmq ? 'up' : 'down'
+          }`}
         >
           <span className="service-name">RabbitMQ</span>
-          <span className="status-icon">{healthStatus.rabbitmq ? '✔' : '✘'}</span>
+          <span className="status-icon">
+            {healthStatus.rabbitmq ? '✔' : '✘'}
+          </span>
         </li>
         <li
-          className={`health-status-item ${healthStatus.database ? 'up' : 'down'}`}
+          className={`health-status-item ${
+            healthStatus.database ? 'up' : 'down'
+          }`}
         >
           <span className="service-name">Database</span>
-          <span className="status-icon">{healthStatus.database ? '✔' : '✘'}</span>
+          <span className="status-icon">
+            {healthStatus.database ? '✔' : '✘'}
+          </span>
+        </li>
+        <li
+          className={`health-status-item ${
+            healthStatus.ocrWorker ? 'up' : 'down'
+          }`}
+        >
+          <span className="service-name">OCR Worker</span>
+          <span className="status-icon">
+            {healthStatus.ocrWorker ? '✔' : '✘'}
+          </span>
+        </li>
+        <li
+          className={`health-status-item ${
+            healthStatus.pdfWorker ? 'up' : 'down'
+          }`}
+        >
+          <span className="service-name">PDF Worker</span>
+          <span className="status-icon">
+            {healthStatus.pdfWorker ? '✔' : '✘'}
+          </span>
+        </li>
+        <li
+          className={`health-status-item ${
+            healthStatus.translateWorker ? 'up' : 'down'
+          }`}
+        >
+          <span className="service-name">Translate Worker</span>
+          <span className="status-icon">
+            {healthStatus.translateWorker ? '✔' : '✘'}
+          </span>
         </li>
       </ul>
     </div>

@@ -16,7 +16,7 @@ const { checkHealth } = require("./utils/healthCheck");
 const cors = require("cors");
 
 const corsOptions = {
-  origin: '*',
+  origin: "*",
 };
 ensureFolderExists(["uploads", "output"]);
 
@@ -29,7 +29,7 @@ const upload = multer({ storage });
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
   windowMs: 1000, // 1 minute
-  max: 2000, // Limit each IP to 10 requests per windowMs
+  max: 2000,
   message: "Too many requests, please try again later.",
 });
 // Api endpoint để upload file
@@ -37,6 +37,9 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   //Get file path and hash
   const fileBuffer = req.file.buffer;
   const fileHash = await hashFile(fileBuffer);
+  const ext = path.extname(req.file.originalname);
+  const newName = `${fileHash}${ext}`;
+  const filePath = path.join("uploads", newName);
   // Check file in redis cache
   const cachedFile = await getCache(fileHash);
   if (cachedFile) {
@@ -50,10 +53,10 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     return successResponse(res, fileHash);
   }
 
+  if (fs.existsSync(filePath)) {
+    return successResponse(res, fileHash);
+  }
   // Save file to uploads
-  const ext = path.extname(req.file.originalname);
-  const newName = `${fileHash}${ext}`;
-  const filePath = path.join("uploads", newName);
   fs.writeFileSync(filePath, fileBuffer);
 
   // Send message to ocr queue
@@ -78,7 +81,7 @@ app.get("/status/:fileHash", async (req, res) => {
         setCache(fileHash, translateText);
       }
     }
-    console.log("cache have translateText")
+    
     if (fs.existsSync(filePath)) {
       return res.json({
         ready: true,

@@ -32,6 +32,7 @@ const limiter = rateLimit({
   max: 2000,
   message: "Too many requests, please try again later.",
 });
+app.use(limiter);
 // Api endpoint để upload file
 app.post("/upload", upload.single("image"), async (req, res) => {
   //Get file path and hash
@@ -81,7 +82,7 @@ app.get("/status/:fileHash", async (req, res) => {
         setCache(fileHash, translateText);
       }
     }
-    
+
     if (fs.existsSync(filePath)) {
       return res.json({
         ready: true,
@@ -104,10 +105,6 @@ app.get("/download/:fileHash", (req, res) => {
     return res.download(filePath);
   }
 });
-app.use(limiter);
-app.listen(3001, "0.0.0.0", () =>
-  console.log("🚀 Server tại http://localhost:3001")
-);
 
 // Function to return success response
 function successResponse(res, fileHash) {
@@ -116,5 +113,7 @@ function successResponse(res, fileHash) {
     statusUrl: `http://localhost:3001/status/${fileHash}`,
   });
 }
-
 app.get("/health", checkHealth);
+app.listen(3001, "0.0.0.0", () =>
+  console.log("🚀 Server tại http://localhost:3001")
+);

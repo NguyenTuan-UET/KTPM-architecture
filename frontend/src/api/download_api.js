@@ -3,7 +3,7 @@ import { circuitBreaker } from './circuitBreaker';
 export const downloadFile = async (downloadUrl) => {
   try {
     const response = await circuitBreaker(() =>
-      fetch(`http://localhost:3001${downloadUrl}`, {
+      fetch(`http://localhost:3001/download/${downloadUrl}`, {
         method: 'GET',
       })
     );

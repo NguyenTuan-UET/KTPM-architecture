@@ -1,3 +1,8 @@
+# Nhóm 8: INT3105_1     
+1. 21020775 - Bùi Đức Luân
+2. 22028205 - Phạm Tất Thành
+3. 22028209 - Nguyễn Quang Tuấn 
+
 # CASE STUDY 2
 Dưới đây là một chương trình có nhiệm vụ chuyển file ảnh tiếng Anh sang một file `pdf` tiếng Việt. Các bước xử lý lần lượt bao gồm: chuyển đổi ảnh sang text, dịch tiếng Anh sang tiếng Việt, chuyển đổi nội dung text thành file `pdf`. Chương trình chính chỉ demo các tính năng này tuần tự.
 
@@ -13,6 +18,8 @@ Yêu cầu cài đặt trước [tesseract](https://tesseract-ocr.github.io/tess
 - pm2 start .\backend\workers\ocrWorker.js -i 4
 - pm2 start .\backend\workers\translateWorker.js -i 4
 - pm2 start .\backend\workers\pdfWorker.js -i 4
+- node .\backend\app.js
+
 # Fronend:
 - npm install 
 - npm run dev 

@@ -139,3 +139,9 @@ button:hover:not(:disabled) {
   font-size: 16px;
   color: #555555;
 }
+
+
+.status-message.warning {
+  color: #d97706;
+  font-weight: bold;
+}

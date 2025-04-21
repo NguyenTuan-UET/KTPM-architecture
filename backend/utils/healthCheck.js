@@ -14,7 +14,7 @@ async function checkWorkerStatus(workerName) {
       }
       const isOnline = stdout.includes(workerName) && stdout.includes("online");
       if (isOnline) {
-        console.log(`✅ Worker ${workerName} đang hoạt động và sẵn sàng.`);
+        // console.log(`✅ Worker ${workerName} đang hoạt động và sẵn sàng.`);
       } else {
         console.error(
           `❌ Worker ${workerName} không hoạt động hoặc không ở trạng thái online.`
@@ -40,7 +40,7 @@ async function checkHealth(req, res) {
     const pong = await redisClient.ping();
     if (pong === "PONG") {
       healthStatus.redis = true;
-      console.log("✅ Redis kết nối thành công và sẵn sàng.");
+      // console.log('✅ Redis kết nối thành công và sẵn sàng.');
     } else {
       console.error("❌ Redis kết nối không thành công.");
     }
@@ -53,7 +53,7 @@ async function checkHealth(req, res) {
     const channel = await getRabbitMQChannel();
     await channel.assertQueue("", { durable: false });
     healthStatus.rabbitmq = true;
-    console.log("✅ RabbitMQ kết nối thành công và queue đã được xác nhận.");
+    // console.log('✅ RabbitMQ kết nối thành công và queue đã được xác nhận.');
   } catch (err) {
     console.error("❌ RabbitMQ không hoạt động:", err.message);
   }
@@ -69,7 +69,7 @@ async function checkHealth(req, res) {
     });
     healthStatus.database = true;
     db.close();
-    console.log("✅ SQLite Database kết nối thành công và hoạt động ổn định.");
+    // console.log('✅ SQLite Database kết nối thành công và hoạt động ổn định.');
   } catch (err) {
     console.error("❌ Database không hoạt động:", err.message);
   }
@@ -86,8 +86,8 @@ async function checkHealth(req, res) {
   };
 
   // Nếu tất cả các dịch vụ đều hoạt động, log tổng quan
-  if (Object.values(healthStatus).every((status) => status === true)) {
-    console.log("✅ Tất cả các dịch vụ đang hoạt động bình thường.");
+  if (Object.values(healthStatus).every(status => status === true)) {
+    // console.log('✅ Tất cả các dịch vụ đang hoạt động bình thường.');
   } else {
     console.error("❌ Một số dịch vụ không hoạt động, vui lòng kiểm tra lại.");
   }

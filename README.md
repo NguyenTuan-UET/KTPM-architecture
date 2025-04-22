@@ -57,7 +57,7 @@ docker run -d --rm --name redis-stack-server -p 6379:6379 redis/redis-stack-serv
 ```
 
 ### Step 2: Start Backend Workers and Server
-Navigate to the `backend` directory:
+Make sure you navigate to the `backend` directory:
 ```bash
 cd backend
 
@@ -76,7 +76,7 @@ node app.js
 > If the server is running on **port 3001**, you're good to go! ✅
 
 ### Step 3: Start the Frontend
-Navigate to the `frontend` directory:
+Make sure you navigate to the `frontend` directory:
 ```bash
 cd frontend
 npm run dev

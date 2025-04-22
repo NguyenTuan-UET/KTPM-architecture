@@ -1,47 +1,91 @@
-# Nhóm 8: INT3105_1     
-1. 21020775 - Bùi Đức Luân
-2. 22028205 - Phạm Tất Thành
-3. 22028209 - Nguyễn Quang Tuấn 
+# 📘 Case Study 2 — Image to Vietnamese PDF Converter
 
-# CASE STUDY 2
-Dưới đây là một chương trình có nhiệm vụ chuyển file ảnh tiếng Anh sang một file `pdf` tiếng Việt. Các bước xử lý lần lượt bao gồm: chuyển đổi ảnh sang text, dịch tiếng Anh sang tiếng Việt, chuyển đổi nội dung text thành file `pdf`. Chương trình chính chỉ demo các tính năng này tuần tự.
+## 👨‍💻 Group 8: INT3105_1
+1. **Bùi Đức Luân** – 21020775  
+2. **Phạm Tất Thành** – 22028205  
+3. **Nguyễn Quang Tuấn** – 22028209  
 
-## Hướng dẫn cài đặt
-Yêu cầu cài đặt trước [tesseract](https://tesseract-ocr.github.io/tessdoc/Installation.html) trên hệ điều hành của bạn. 
+---
 
-```sh
-# Backend:
-- npm install 
-- redis: docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
-- MQ: docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
-- pm2: npm install -g pm2
-- pm2 start .\backend\workers\ocrWorker.js -i 4
-- pm2 start .\backend\workers\translateWorker.js -i 4
-- pm2 start .\backend\workers\pdfWorker.js -i 4
-- node .\backend\app.js
+## 📝 Overview
 
-# Fronend:
-- npm install 
-- npm run dev 
+This project demonstrates a complete pipeline for converting English text from an image into a Vietnamese-translated PDF file. The core process includes:
 
+1. **OCR (Optical Character Recognition)** – Extracting English text from an image.  
+2. **Translation** – Translating the extracted English text into Vietnamese.  
+3. **PDF Generation** – Converting the translated Vietnamese text into a downloadable PDF.
 
-## Mô Tả
-| File | Chức năng |
-|--|:--|
-| utils/ocr.js | Chuyển đổi ảnh sang text |
-| utils/translate.js | Dịch tiếng Anh sang tiếng Việt |
-| utils/pdf.js | Chuyển đổi text sang PDF |
+The main application orchestrates these steps sequentially to provide a seamless conversion experience.
 
+---
 
-## Yêu cầu triển khai
-| Mức độ | Mô tả |
-|--|--|
-| ![Static Badge](https://img.shields.io/badge/OPTIONAL-easy-green) | Triển khai thành web hoàn chỉnh |
-| ![Static Badge](https://img.shields.io/badge/OPTIONAL-hard-red) | Sử dụng cache để tăng hiệu suất ứng dụng |
-| ![Static Badge](https://img.shields.io/badge/OPTIONAL-medium-yellow) | Lựa chọn số lượng filter tối ưu nhất với hạ tầng phần cứng |
-| ![Static Badge](https://img.shields.io/badge/REQUIRED-warning-orange)  | Không thay đổi thư viện của từng chức năng |
-| ![Static Badge](https://img.shields.io/badge/REQUIRED-easy-green)  | Hoàn thiện chương trình sử dụng `express.js` cho phép upload một file ảnh và tải về một file `pdf` tương ứng |
-| ![Static Badge](https://img.shields.io/badge/REQUIRED-medium-yellow) | Sử dụng `message queue` cho chương trình trên (ví dụ: Kafka, RabbitMQ,...) |
-| ![Static Badge](https://img.shields.io/badge/REQUIRED-medium-yellow) | *Đánh giá* và *so sánh* hiệu năng dựa trên kiến trúc đã triển khai |
+## 🔧 Requirements
 
-Ngoài ra, các bạn có thể tuỳ chọn bổ sung thêm một số phần triển khai khác.
+To run this project, ensure your environment has the following:
+
+- **Node.js**
+- **Docker**
+- **PM2** (Install globally):  
+  ```bash
+  npm install -g pm2
+  ```
+
+---
+
+## 📦 Installation
+
+### Backend Setup
+```bash
+cd backend
+npm install
+```
+
+### Frontend Setup
+```bash
+cd frontend
+npm install
+```
+
+---
+
+## 🚀 How to Run the App
+
+### Step 1: Start RabbitMQ and Redis Services via Docker
+```bash
+docker run -d --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+docker run -d --rm --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+```
+
+### Step 2: Start Backend Workers and Server
+Navigate to the `backend` directory:
+```bash
+cd backend
+
+# Start OCR, Translate, and PDF Workers (each with 4 instances)
+pm2 start workers/ocrWorker.js -i 4
+pm2 start workers/translateWorker.js -i 4
+pm2 start workers/pdfWorker.js -i 4
+
+# Optional: Check worker status
+pm2 status
+
+# Start backend server
+node app.js
+```
+
+> If the server is running on **port 3001**, you're good to go! ✅
+
+### Step 3: Start the Frontend
+Navigate to the `frontend` directory:
+```bash
+cd frontend
+npm run dev
+```
+
+> If the frontend is running on **port 3000**, the setup is complete! 🎉
+
+---
+
+## 🎉 Enjoy the App!
+
+Feel free to explore the app and experience how it intelligently transforms English image content into professionally formatted Vietnamese PDF files.
